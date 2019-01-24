@@ -1,0 +1,47 @@
+version: "3"
+services:
+  consumer:
+    # replace username/repo:tag with your name and image details
+    image: udacitywrighty/kube-test-consumer:0.2
+    restart: on-failure
+    depends_on:
+      - "queue"
+      - "db"
+
+  producer:
+    image: udacitywrighty/kube-test-producer:0.2
+    restart: on-failure
+    depends_on:
+      - "queue"
+
+  queue:
+    image: rabbitmq:3-management
+    ports:
+      - "8080:8080"
+      - "15671:15671"
+      - "15672:15672"
+    hostname: queue
+    container_name: queue
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+
+  db:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
+    hostname: db
+    container_name: db
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - "discovery.type=single-node"
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.5.4
+    ports:
+      - "5601:5601"
+    environment:
+      SERVER_NAME: kibana
+      ELASTICSEARCH_URL: http://db:9200
+    depends_on:
+      - "db"
