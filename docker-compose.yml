@@ -1,8 +1,7 @@
 version: "3"
 services:
   consumer:
-    # replace username/repo:tag with your name and image details
-    image: udacitywrighty/kube-test-consumer:0.2
+    image: udacitywrighty/kube-test-consumer:0.3
     restart: on-failure
     depends_on:
       - "queue"
