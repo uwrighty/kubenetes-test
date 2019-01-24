@@ -9,10 +9,9 @@ channel.queue_declare(queue='main')
 
 with open("test.txt", "r") as f:
     for line in f:
-        data = {'body': line}
         channel.basic_publish(exchange='',
                       routing_key='main',
-                      body=data)
+                      body=line)
         print(" [x] Sent 'Message'")
         sleep(1)
 
