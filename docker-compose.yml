@@ -1,7 +1,7 @@
 version: "3"
 services:
   consumer:
-    image: udacitywrighty/kube-test-consumer:0.3
+    image: udacitywrighty/kube-test-consumer:0.4
     restart: on-failure
     depends_on:
       - "queue"

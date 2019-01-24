@@ -3,11 +3,12 @@ import pika
 from elasticsearch import Elasticsearch
 
 es = Elasticsearch([{'host': 'db', 'port': 9200}])
-
+id = 0
 
 def callback(ch, method, properties, body):
     # post to database
-    es.create(index='all', body=body)
+    es.create(id=id, doc_type='_doc', index='all', body=body)
+    id = id + 1
     print(" [x] Received %r" % body)
 
 
