@@ -1,14 +1,14 @@
-version: "3"
+version: "2.4"
 services:
   consumer:
-    image: udacitywrighty/kube-test-consumer:0.4
+    image: udacitywrighty/kube-test-consumer:0.7
     restart: on-failure
     depends_on:
       - "queue"
       - "db"
 
   producer:
-    image: udacitywrighty/kube-test-producer:0.3
+    image: udacitywrighty/kube-test-producer:0.5
     restart: on-failure
     depends_on:
       - "queue"
@@ -21,6 +21,7 @@ services:
       - "15672:15672"
     hostname: queue
     container_name: queue
+    mem_limit: 1gb
     environment:
       RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: password
@@ -29,6 +30,7 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
     hostname: db
     container_name: db
+    mem_limit: 1gb
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -37,10 +39,13 @@ services:
 
   kibana:
     image: docker.elastic.co/kibana/kibana:6.5.4
+    container_name: kibana
     ports:
       - "5601:5601"
+    mem_limit: 500m
     environment:
-      SERVER_NAME: kibana
       ELASTICSEARCH_URL: http://db:9200
     depends_on:
       - "db"
+
+
