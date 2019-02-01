@@ -1,4 +1,4 @@
-FROM python:3 AS producer
+FROM python:3 AS raw_producer
 
 ADD src/producer.py /
 ADD src/test.txt /

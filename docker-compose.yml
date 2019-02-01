@@ -1,17 +1,32 @@
 version: "2.4"
 services:
-  consumer:
-    image: udacitywrighty/kube-test-consumer:0.7
+  rawconsumer:
+    image: udacitywrighty/kube-test-consumer:0.8
     restart: on-failure
     depends_on:
       - "queue"
       - "db"
 
-  producer:
-    image: udacitywrighty/kube-test-producer:0.5
+  rawproducer:
+    image: udacitywrighty/kube-test-data_producer:0.6
     restart: on-failure
     depends_on:
       - "queue"
+      - "db"
+
+  cleaner:
+    image: udacitywrighty/kube-test-cleaner:0.3
+    restart: on-failure
+    depends_on:
+      - "queue"
+      - "db"
+
+  cleanconsumer:
+    image: udacitywrighty/kube-test-clean_consumer:0.1
+    restart: on-failure
+    depends_on:
+      - "queue"
+      - "db"
 
   queue:
     image: rabbitmq:3-management

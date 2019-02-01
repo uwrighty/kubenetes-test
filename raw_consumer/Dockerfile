@@ -1,4 +1,4 @@
-FROM python:3 AS consumer
+FROM python:3 AS raw_consumer
 
 ADD src/consumer.py /
 
